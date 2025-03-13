@@ -1,8 +1,10 @@
-import './App.css'
-
 function App() {
-  return <h1>hello</h1>
+  return (
+    <>
+      <div className="head"></div>
+      <div className="tail"></div>
+    </>
+  );
 }
 
-
-export default App
+export default App;
