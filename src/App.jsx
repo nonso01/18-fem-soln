@@ -12,7 +12,7 @@ function App() {
   // const [data, setData] = useState(null);
   const [loading, setLoading] = useState(true);
 
-  const ipURL = `http://ip-api.com/json/`;
+  const ipURL = `http://ip-api.com/json`;
 
   useEffect(() => {
     fetch(ipURL)
