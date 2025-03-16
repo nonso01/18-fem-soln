@@ -14,7 +14,7 @@ function App() {
   const [data, setData] = useState({
     ip: "100.28.28.28", // default
     location: "Cameroon",
-    timeZone: "UTC-01:00",
+    timezone: "UTC-01:00",
     isp: "MTN Link",
   });
   const [loading, setLoading] = useState(true);
