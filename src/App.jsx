@@ -11,7 +11,12 @@ const log = console.log;
 function App() {
   const [ipAddr, setIpAddr] = useState("");
   const [cords, setCords] = useState([0, 0]);
-  // const [data, setData] = useState(null);
+  const [data, setData] = useState({
+    ip: "100.28.28.28", // default
+    location: "Cameroon",
+    timeZone: "UTC-01:00",
+    isp: "MTN Link",
+  });
   const [loading, setLoading] = useState(true);
   const [failed, setFailed] = useState(true);
 
@@ -24,7 +29,13 @@ function App() {
         return res.json();
       })
       .then((x) => {
-        // log(x);
+        log(x);
+        setData({
+          ip: x?.query,
+          timezone: x?.timezone,
+          isp: x?.isp,
+          location: `${x?.country}, ${x?.city}`,
+        });
         setCords(() => [x.lat, x.lon]);
       })
       .catch((error) => {
@@ -33,14 +44,22 @@ function App() {
           : setFailed((x) => false);
         console.warn(error);
       })
-      .finally(() => setLoading((x) => false));
+      .finally(() => {
+        // log(data);
+        setLoading((x) => false);
+      });
   }, [ipURL]);
 
   return loading ? (
     <div className="loading">loading....</div>
   ) : (
     <>
-      <Zone />
+      <Zone
+        ip={data.ip}
+        isp={data.isp}
+        location={data.location}
+        timeZone={data.timezone}
+      />
       <div className="head">
         <Input />
       </div>

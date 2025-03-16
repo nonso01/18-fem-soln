@@ -1,9 +1,4 @@
-export default function Zone({
-  ip = "108.28.28.28",
-  location = "Cameroon",
-  timeZone = "UTC-01:00",
-  isp = "MTN Link",
-}) {
+export default function Zone({ip, location, timeZone, isp}) {
   return (
     <div className="zone">
       <div className="prop">
