@@ -41,6 +41,15 @@ html {
     z-index: 1;
   }
 
+  .loading {
+    /* animate */
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate3d(-50%, -50%, 0);
+    width: 100px;
+  }
+
   .head {
     height: 35lvh;
     background-image: url("/images/pattern-bg-desktop.png");

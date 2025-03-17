@@ -20,35 +20,39 @@ function App() {
   const [loading, setLoading] = useState(true);
   const [failed, setFailed] = useState(true);
 
-  const ipURL = `http://ip-api.com/json`;
+  const ipURL = `https://freeipapi.com/api/json/`;
 
-  useEffect(() => {
-    fetch(ipURL)
-      .then((res) => {
-        setLoading((x) => true);
-        return res.json();
-      })
-      .then((x) => {
-        log(x);
-        setData({
-          ip: x?.query,
-          timezone: x?.timezone,
-          isp: x?.isp,
-          location: `${x?.country}, ${x?.city}`,
+  const updateIP = (url) => {
+    useEffect(() => {
+      fetch(url)
+        .then((res) => {
+          setLoading((x) => true);
+          return res.json();
+        })
+        .then((x) => {
+          log(x);
+          setData({
+            ip: x?.ipAddress,
+            timezone: x?.timeZone,
+            isp: x?.continent,
+            location: `${x?.countryName}, ${x?.cityName}`,
+          });
+          setCords(() => [x.latitude, x.longitude]);
+        })
+        .catch((error) => {
+          error?.message === "Failed to fetch"
+            ? setFailed((x) => true)
+            : setFailed((x) => false);
+          console.warn(error);
+        })
+        .finally(() => {
+          // log(data);
+          setLoading((x) => false);
         });
-        setCords(() => [x.lat, x.lon]);
-      })
-      .catch((error) => {
-        error?.message === "Failed to fetch"
-          ? setFailed((x) => true)
-          : setFailed((x) => false);
-        console.warn(error);
-      })
-      .finally(() => {
-        // log(data);
-        setLoading((x) => false);
-      });
-  }, [ipURL]);
+    }, [url]);
+  };
+
+  updateIP(ipURL);
 
   return loading ? (
     <div className="loading">loading....</div>

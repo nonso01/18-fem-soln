@@ -1,6 +1,6 @@
 export default function Input({}) {
   return (
-    <div className="input bd">
+    <div className="input ">
       <h2>IP Address Tracker</h2>
       <label htmlFor="">
         {" "}
