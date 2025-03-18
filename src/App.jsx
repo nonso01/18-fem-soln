@@ -15,10 +15,11 @@ function App() {
     ip: "100.28.28.28", // default
     location: "Cameroon",
     timezone: "UTC-01:00",
-    isp: "MTN Link",
+    isp: "MTN Communication Service",
   });
   const [loading, setLoading] = useState(true);
   const [failed, setFailed] = useState(true);
+  const [inputText, setInputText] = useState("");
 
   const ipURL = `https://freeipapi.com/api/json/`;
 
@@ -54,6 +55,15 @@ function App() {
 
   updateIP(ipURL);
 
+  function handleInputText(e) {
+    setInputText(e?.target.value);
+    log(e?.target.value);
+  }
+
+  function handleSubmitText() {
+    log(typeof inputText);
+  }
+
   return loading ? (
     <div className="loading">loading....</div>
   ) : (
@@ -65,7 +75,10 @@ function App() {
         timeZone={data.timezone}
       />
       <div className="head">
-        <Input />
+        <Input
+          handleInputText={handleInputText}
+          handleSubmitText={handleSubmitText}
+        />
       </div>
       <CityMap cord={cords} />
     </>
