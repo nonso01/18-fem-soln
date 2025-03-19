@@ -7,6 +7,7 @@ import Input from "./components/Input";
 // const ipKey = import.meta.env.VITE_IP_KEY;
 // const ipURL = `https://geo.ipify.org/api/v2/country?apiKey=${ipKey}`;
 const log = console.log;
+const matchIpText = /{}/;
 
 function App() {
   const [ipAddr, setIpAddr] = useState("");
@@ -65,7 +66,14 @@ function App() {
   }
 
   return loading ? (
-    <div className="loading">loading....</div>
+    <div
+      className="loading"
+      onAnimationEnd={(e) => {
+        e.target.classList.add("full");
+      }}
+    >
+      <span className="">loading...</span>
+    </div>
   ) : (
     <>
       <Zone
