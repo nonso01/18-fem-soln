@@ -129,6 +129,12 @@ html {
     align-items: center;
     justify-content: space-evenly;
 
+    &.error {
+      input {
+        background-color: rgb(252, 100, 100);
+      }
+    }
+
     h2 {
       color: #fff;
     }
@@ -138,6 +144,7 @@ html {
       height: 50px;
       position: relative;
     }
+
     input {
       outline: none;
       border: none;

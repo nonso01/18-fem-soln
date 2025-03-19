@@ -7,7 +7,8 @@ import Input from "./components/Input";
 // const ipKey = import.meta.env.VITE_IP_KEY;
 // const ipURL = `https://geo.ipify.org/api/v2/country?apiKey=${ipKey}`;
 const log = console.log;
-const matchIpText = /{}/;
+const testIp =
+  /^(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$/;
 
 function App() {
   const [ipAddr, setIpAddr] = useState("");
@@ -19,20 +20,20 @@ function App() {
     isp: "MTN Communication Service",
   });
   const [loading, setLoading] = useState(true);
-  const [failed, setFailed] = useState(true);
+  // const [failed, setFailed] = useState(true);
   const [inputText, setInputText] = useState("");
+  const [invalidIp, setInvalidIp] = useState(false);
 
-  const ipURL = `https://freeipapi.com/api/json/`;
+  const ipURL = "https://freeipapi.com/api/json/";
 
-  const updateIP = (url) => {
-    useEffect(() => {
+  useEffect(() => {
+    const fetctIpData = (url) =>
       fetch(url)
         .then((res) => {
           setLoading((x) => true);
           return res.json();
         })
         .then((x) => {
-          log(x);
           setData({
             ip: x?.ipAddress,
             timezone: x?.timeZone,
@@ -42,27 +43,57 @@ function App() {
           setCords(() => [x.latitude, x.longitude]);
         })
         .catch((error) => {
-          error?.message === "Failed to fetch"
-            ? setFailed((x) => true)
-            : setFailed((x) => false);
+          // error?.message === "Failed to fetch"
+          //   ? setFailed((x) => true)
+          //   : setFailed((x) => false);
           console.warn(error);
         })
         .finally(() => {
-          // log(data);
           setLoading((x) => false);
         });
-    }, [url]);
-  };
 
-  updateIP(ipURL);
+    fetctIpData(ipURL);
+  }, []);
 
   function handleInputText(e) {
-    setInputText(e?.target.value);
-    log(e?.target.value);
+    const v = e?.target.value;
+    setInputText((x) => v);
   }
 
   function handleSubmitText() {
-    log(typeof inputText);
+    if (testIp.test(inputText)) {
+      setInvalidIp((x) => false);
+
+      // updateIP(`${ipURL}${inputText}`);
+      fetch(`${ipURL}${inputText}`)
+        .then((res) => {
+          setLoading((x) => true);
+          return res.json();
+        })
+        .then((x) => {
+          setData({
+            ip: x?.ipAddress,
+            timezone: x?.timeZone,
+            isp: x?.continent,
+            location: `${x?.countryName}, ${x?.cityName}`,
+          });
+          setCords(() => [x.latitude, x.longitude]);
+        })
+        .catch((error) => {
+          // error?.message === "Failed to fetch"
+          //   ? setFailed((x) => true)
+          //   : setFailed((x) => false);
+          console.warn(error);
+        })
+        .finally(() => {
+          setLoading((x) => false);
+          setInputText("");
+        });
+
+      log(inputText);
+    } else {
+      setInvalidIp((x) => true);
+    }
   }
 
   return loading ? (
@@ -86,6 +117,7 @@ function App() {
         <Input
           handleInputText={handleInputText}
           handleSubmitText={handleSubmitText}
+          invalidIp={invalidIp}
         />
       </div>
       <CityMap cord={cords} />

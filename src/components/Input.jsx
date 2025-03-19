@@ -1,14 +1,19 @@
 import arrow from "/images/icon-arrow.svg";
 
-export default function Input({ handleInputText, handleSubmitText }) {
+export default function Input({
+  handleInputText,
+  handleSubmitText,
+  invalidIp = false,
+}) {
   return (
-    <div className="input ">
+    <div className={invalidIp ? "input error" : "input"}>
       <h2>IP Address Tracker</h2>
-      <label htmlFor="" className="">
+      <label htmlFor="text">
         <input
           type="text"
-          placeholder="Type an ip to preview on the map"
+          placeholder="Input a valid IP from any location"
           onInput={handleInputText}
+          id="text"
         />
         <button onClick={handleSubmitText}>
           <img src={arrow} alt="arrow" />
