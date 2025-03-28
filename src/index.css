@@ -25,6 +25,7 @@
 
 html {
   min-height: 100lvh;
+  background-color: white;
   /* scrollbar-gutter: stable; */
 }
 
