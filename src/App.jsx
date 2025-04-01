@@ -64,7 +64,6 @@ function App() {
     if (testIp.test(inputText)) {
       setInvalidIp((x) => false);
 
-      // updateIP(`${ipURL}${inputText}`);
       fetch(`${ipURL}${inputText}`)
         .then((res) => {
           setLoading((x) => true);
