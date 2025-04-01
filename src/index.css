@@ -35,9 +35,9 @@ html {
 
 #root {
   position: relative;
+  overflow: scroll;
 
   #map {
-    /* experiment */
     height: 65lvh;
     z-index: 1;
   }
@@ -78,6 +78,7 @@ html {
   }
 
   .zone {
+    /* border: 2px solid red; */
     height: 12.5rem;
     width: 70lvw;
     border-radius: 0.625rem;
@@ -120,6 +121,7 @@ html {
   }
 
   .input {
+    /* border: 2px solid red; */
     padding: 1%;
     width: 35%;
     height: min(11.7rem, 65%);
@@ -130,7 +132,10 @@ html {
 
     &.error {
       input {
-        background-color: rgb(252, 100, 100);
+        background-color: rgba(252, 100, 100, 0.984);
+      }
+      label {
+        animation: err 200ms ease 5 alternate;
       }
     }
 
@@ -175,7 +180,7 @@ html {
   #root {
     .zone {
       width: 90dvw;
-      height: 330px;
+      height: 300px;
 
       flex-direction: column;
 
@@ -199,6 +204,7 @@ html {
 
     .input {
       width: 90dvw;
+      /* height: 11rem ; */
 
       h2 {
         font-size: 1.7rem;
@@ -239,4 +245,13 @@ html {
 }
 
 @keyframes err {
+  0% {
+    transform: translate3d(4%, 0, 0);
+  }
+  50% {
+    transform: translate3d(-4%, 0, 0);
+  }
+  100% {
+    transform: translate3d(0, 0, 0);
+  }
 }
