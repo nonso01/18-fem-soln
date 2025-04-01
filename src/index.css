@@ -218,27 +218,12 @@ html {
 }
 
 @keyframes load {
-  0%,
-  10% {
+  0% {
     --load-value: 10%;
   }
-  20%,
-  30% {
-    --load-value: 30%;
-  }
-  40%,
   50% {
     --load-value: 50%;
   }
-  60%,
-  70% {
-    --load-value: 70%;
-  }
-  70%,
-  80% {
-    --load-value: 80%;
-  }
-  90%,
   100% {
     --load-value: 100%;
   }

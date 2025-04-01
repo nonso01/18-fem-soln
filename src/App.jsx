@@ -14,10 +14,10 @@ function App() {
   const [ipAddr, setIpAddr] = useState("");
   const [cords, setCords] = useState([0, 0]);
   const [data, setData] = useState({
-    ip: "100.28.28.28", // default
-    location: "Cameroon",
-    timezone: "UTC-01:00",
-    isp: "MTN Communication Service",
+    ip: "100.28.28.28", // Default IP address
+    location: "Cameroon", // Default location
+    timezone: "UTC-01:00", // Default timezone
+    isp: "MTN Communication Service", // Default ISP
   });
   const [loading, setLoading] = useState(true);
   // const [failed, setFailed] = useState(true);
@@ -26,33 +26,29 @@ function App() {
 
   const ipURL = "https://freeipapi.com/api/json/";
 
-  useEffect(() => {
-    const fetctIpData = (url) =>
-      fetch(url)
-        .then((res) => {
-          setLoading((x) => true);
-          return res.json();
-        })
-        .then((x) => {
-          setData({
-            ip: x?.ipAddress,
-            timezone: x?.timeZone,
-            isp: x?.continent,
-            location: `${x?.countryName}, ${x?.cityName}`,
-          });
-          setCords(() => [x.latitude, x.longitude]);
-        })
-        .catch((error) => {
-          // error?.message === "Failed to fetch"
-          //   ? setFailed((x) => true)
-          //   : setFailed((x) => false);
-          console.warn(error);
-        })
-        .finally(() => {
-          setLoading((x) => false);
+  const fetchIpData = (url) => {
+    setLoading(true);
+    fetch(url)
+      .then((res) => res.json())
+      .then((x) => {
+        setData({
+          ip: x?.ipAddress,
+          timezone: x?.timeZone,
+          isp: x?.continent,
+          location: `${x?.countryName}, ${x?.cityName}`,
         });
+        setCords([x.latitude, x.longitude]);
+      })
+      .catch((error) => {
+        console.warn(error);
+      })
+      .finally(() => {
+        setLoading(false);
+      });
+  };
 
-    fetctIpData(ipURL);
+  useEffect(() => {
+    fetchIpData(ipURL);
   }, []);
 
   function handleInputText(e) {
@@ -62,36 +58,11 @@ function App() {
 
   function handleSubmitText() {
     if (testIp.test(inputText)) {
-      setInvalidIp((x) => false);
-
-      fetch(`${ipURL}${inputText}`)
-        .then((res) => {
-          setLoading((x) => true);
-          return res.json();
-        })
-        .then((x) => {
-          setData({
-            ip: x?.ipAddress,
-            timezone: x?.timeZone,
-            isp: x?.continent,
-            location: `${x?.countryName}, ${x?.cityName}`,
-          });
-          setCords(() => [x.latitude, x.longitude]);
-        })
-        .catch((error) => {
-          // error?.message === "Failed to fetch"
-          //   ? setFailed((x) => true)
-          //   : setFailed((x) => false);
-          console.warn(error);
-        })
-        .finally(() => {
-          setLoading((x) => false);
-          setInputText("");
-        });
-
-      log(inputText);
+      setInvalidIp(false);
+      fetchIpData(`${ipURL}${inputText}`);
+      setInputText("");
     } else {
-      setInvalidIp((x) => true);
+      setInvalidIp(true);
     }
   }
 
