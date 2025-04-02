@@ -122,7 +122,7 @@ html {
   }
 
   .input {
-    border: 2px solid red;
+    /* border: 2px solid red; */
     padding: 1%;
     width: 35%;
     height: min(11.7rem, 65%);
