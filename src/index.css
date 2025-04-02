@@ -83,7 +83,7 @@ html {
     height: 12.5rem;
     width: 70lvw;
     border-radius: 0.625rem;
-    position: fixed;
+    position: absolute;
     z-index: 5;
     top: 29.5%;
     left: 50%;
